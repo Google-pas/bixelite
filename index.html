@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bixelite - ثورة في عالم تحرير الصور</title>
+    <style>
+        /* نظام الألوان الفاخر والتأثيرات المستقبلية */
+        :root {
+            --bg-color: #030a1c; 
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --text-main: #ffffff;
+            --text-muted: #8e9bb1;
+            
+            /* ألوان الشعار بدقة متناهية */
+            --gradient-logo: linear-gradient(135deg, #29b6f6 0%, #b538ff 35%, #f2505d 70%, #f9a826 100%);
+            --c-blue: #29b6f6;
+            --c-purple: #b538ff;
+            --c-pink: #f2505d;
+            --c-orange: #f9a826;
+        }
+
+        /* تصفير الإعدادات وتحسين الأداء الحركي */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.8;
+            /* هالات ضوئية في الخلفية تمنح عمقاً بصرياً مذهلاً */
+            background-image: 
+                radial-gradient(circle at 85% 15%, rgba(41, 182, 246, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 15% 50%, rgba(181, 56, 255, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, rgba(242, 80, 93, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        
+        /* تدرج لوني فخم للنصوص العريضة */
+        .gradient-text {
+            background: var(--gradient-logo);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            background-size: 200% auto;
+            animation: textShimmer 6s linear infinite;
+        }
+
+        @keyframes textShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* نافبار زجاجي عائم بأبعاد دقيقة */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(3, 10, 28, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            transition: all 0.4s ease;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-container img {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-logo);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--text-main); }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-nav:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        .menu-toggle svg { fill: var(--text-main); width: 30px; height: 30px; }
+
+        /* سيكشن الهيرو الفاخر والأنيق */
+        .hero {
+            padding: 220px 8% 120px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .version-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff66;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00ff66;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.85); }
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            line-height: 1.25;
+            letter-spacing: -1.5px;
+        }
+
+        .hero p {
+            font-size: 1.35rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto 50px;
+            font-weight: 400;
+        }
+
+        /* العدادات الرقمية المحسنة بصرياً والمعتدلة الاتجاه */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 18px 35px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-width: 240px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-item:hover { 
+            transform: translateY(-5px); 
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .stat-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+            flex-shrink: 0;
+        }
+        
+        /* ضبط الألوان لترتيب الأيقونات من اليمين لليسار بشكل موحد ومثالي */
+        .stat-item:nth-child(1) .stat-icon-box { background: rgba(41, 182, 246, 0.12); fill: var(--c-blue); }
+        .stat-item:nth-child(2) .stat-icon-box { background: rgba(249, 168, 38, 0.12); fill: var(--c-orange); }
+        .stat-item:nth-child(3) .stat-icon-box { background: rgba(181, 56, 255, 0.12); fill: var(--c-purple); }
+
+        .stat-info { display: flex; flex-direction: column; align-items: flex-start; }
+        .stat-info h3 { font-size: 1.7rem; font-weight: 800; text-align: right; letter-spacing: -0.5px; line-height: 1.2; }
+        .stat-info p { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 500; white-space: nowrap; }
+
+        /* أزرار التحميل السينمائية وعالية التأثير */
+        .btn-download-large {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--gradient-logo);
+            padding: 20px 50px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            border-radius: 40px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(181, 56, 255, 0.3);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* خط إضاءة ليزري متحرك يعبر الزر بسلاسة مطلقة */
+        .btn-download-large::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-25deg);
+            animation: laserShine 3.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes laserShine {
+            0% { right: -100%; }
+            30% { right: 150%; }
+            100% { right: 150%; }
+        }
+
+        .btn-download-large:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(41, 182, 246, 0.5);
+        }
+        .btn-download-large svg { fill: white; width: 26px; height: 26px; }
+
+        .trust-icons {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .trust-icons span { display: flex; align-items: center; gap: 10px; }
+        .trust-icons svg { width: 20px; height: 20px; fill: var(--text-muted); }
+
+        /* شبكة بطاقات المميزات المتجاورة فائقة النعومة */
+        .features {
+            padding: 80px 8%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px 30px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* تأثير التوهج الخلفي لكل بطاقة عند تمرير الماوس */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% -20%, var(--card-clr), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .feature-card:hover::before { opacity: 0.12; }
+
+        .feature-card:hover { 
+            transform: translateY(-10px); 
+            border-color: var(--card-clr);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(var(--card-rgb), 0.15);
+        }
+        
+        .feature-card:nth-child(1) { --card-clr: var(--c-blue); --card-rgb: 41, 182, 246; }
+        .feature-card:nth-child(2) { --card-clr: var(--c-purple); --card-rgb: 181, 56, 255; }
+        .feature-card:nth-child(3) { --card-clr: var(--c-pink); --card-rgb: 242, 80, 93; }
+        .feature-card:nth-child(4) { --card-clr: var(--c-orange); --card-rgb: 249, 168, 38; }
+
+        .card-icon-wrap {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            fill: #fff;
+        }
+        .feature-card:hover .card-icon-wrap {
+            background: var(--card-clr);
+            border-color: var(--card-clr);
+            box-shadow: 0 10px 25px rgba(var(--card-rgb), 0.4);
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .feature-card h3 { font-size: 1.35rem; margin-bottom: 15px; font-weight: 700; letter-spacing: -0.3px; }
+        .feature-card p { font-size: 0.98rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* سيكشن خطوات التثبيت الاحترافي */
+        .steps-section {
+            padding: 120px 8%;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title { font-size: 2.6rem; font-weight: 900; margin-bottom: 60px; letter-spacing: -1px; }
+
+        .steps-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 35px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 230px;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--glass-border);
+            padding: 30px 20px;
+            border-radius: 24px;
+            transition: all 0.4s ease;
+        }
+        .step:hover { background: rgba(255,255,255,0.03); transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+
+        .step-circle {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .step:nth-child(1) .step-circle { background: linear-gradient(135deg, #1565c0, var(--c-blue)); box-shadow: 0 10px 25px rgba(41, 182, 246, 0.4); }
+        .step:nth-child(2) .step-circle { background: linear-gradient(135deg, #6a1b9a, var(--c-purple)); box-shadow: 0 10px 25px rgba(181, 56, 255, 0.4); }
+        .step:nth-child(3) .step-circle { background: linear-gradient(135deg, #c62828, var(--c-pink)); box-shadow: 0 10px 25px rgba(242, 80, 93, 0.4); }
+        .step:nth-child(4) .step-circle { background: linear-gradient(135deg, #ef6c00, var(--c-orange)); box-shadow: 0 10px 25px rgba(249, 168, 38, 0.4); }
+
+        .step h3 { font-size: 1.2rem; font-weight: 700; color: #fff; }
+
+        /* الأسئلة الشائعة بنظام الأكورديون الناعم جداً */
+        .faq-section {
+            padding: 60px 8%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 18px;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .faq-question {
+            padding: 24px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .faq-question svg { fill: var(--text-muted); width: 20px; height: 20px; transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), fill 0.3s; }
+
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), padding 0.4s ease;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .faq-item.active {
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .faq-item.active .faq-answer {
+            padding: 0 30px 24px;
+            max-height: 350px;
+        }
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+            fill: var(--c-blue);
+        }
+
+        /* منشور الحماية والتلميحات */
+        .tips {
+            text-align: right;
+            padding: 30px;
+            background: rgba(249, 168, 38, 0.03);
+            border: 1px solid rgba(249, 168, 38, 0.12);
+            border-radius: 24px;
+            max-width: 850px;
+            margin: 50px auto 100px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            backdrop-filter: blur(10px);
+        }
+        .tips svg { fill: var(--c-orange); width: 26px; height: 26px; flex-shrink: 0; margin-top: 2px; }
+        .tips div h4 { color: var(--c-orange); font-size: 1.15rem; margin-bottom: 8px; font-weight: 700; }
+        .tips div p { color: var(--text-muted); font-size: 1rem; margin: 0; }
+
+        /* فوتر فخم وهادئ */
+        footer {
+            background: rgba(1, 5, 15, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 70px 8% 40px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .footer-links a { font-size: 0.98rem; color: var(--text-muted); transition: color 0.3s; }
+        .footer-links a:hover { color: #fff; }
+
+        .copyright {
+            text-align: center;
+            color: rgba(255,255,255,0.25);
+            font-size: 0.88rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding-top: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* الميديا كويري المتطورة للهواتف والأجهزة اللوحية */
+        @media (max-width: 768px) {
+            nav { padding: 15px 6%; }
+            .hero { padding: 160px 6% 80px; }
+            .hero h1 { font-size: 2.8rem; letter-spacing: -0.5px; }
+            .hero p { font-size: 1.15rem; }
+            
+            .nav-links {
+                position: absolute;
+                top: 75px;
+                right: 0;
+                width: 100%;
+                background: rgba(3, 10, 28, 0.98);
+                border-bottom: 1px solid var(--glass-border);
+                flex-direction: column;
+                padding: 40px 0;
+                gap: 25px;
+                display: none;
+                box-shadow: 0 30px 40px rgba(0,0,0,0.6);
+            }
+            .nav-links.show { display: flex; }
+            .menu-toggle { display: block; }
+            .btn-nav { display: none; }
+            
+            .stats { gap: 20px; }
+            .stat-item { min-width: 100%; }
+            .steps-container { gap: 25px; }
+            .step { min-width: 100%; }
+            .footer-content { flex-direction: column; text-align: center; gap: 30px; }
+            .footer-links { flex-direction: column; gap: 20px; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-container">
+            <img src="xxx.jpg" alt="bixelite Logo">
+            <span>lite<span class="gradient-text">bixe</span></span>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#hero" onclick="closeMenu()">الرئيسية</a>
+            <a href="#features" onclick="closeMenu()">المميزات</a>
+            <a href="#steps" onclick="closeMenu()">التعليمات</a>
+            <a href="#faq" onclick="closeMenu()">الأسئلة الشائعة</a>
+            <a href="bixelite.apk" download class="btn-nav">تحميل التطبيق</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="hero">
+        <div class="version-badge">
+            <span class="dot"></span>
+            نسخة 2026 الجديدة
+        </div>
+        <h1>محرر الصور الاحترافي <br><span class="gradient-text">bixelite</span> ذكاء وسهولة</h1>
+        <p>اكتشف القوة الكاملة لمعالجة الصور في جيبك. صُمم بيكسلايت ليمنحك الأدوات الاحترافية الأكثر تعقيداً بواجهة بسيطة ومبتكرة تفتح لك آفاق الإبداع الفوري.</p>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                </div>
+                <div class="stat-info">
+                    <h3>+50,000</h3>
+                    <p>عملية تحميل نشطة</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <div class="stat-info">
+                    <div style="display:flex; gap:2px; fill:var(--c-orange); margin-bottom: 2px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                    <h3>4.9 / 5</h3>
+                    <p>تقييم مستخدمينا</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 12 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                </div>
+                <div class="stat-info">
+                    <h3>100% مجاني</h3>
+                    <p>بدون إعلانات نهائياً</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="bixelite.apk" download class="btn-download-large">
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+            تحميل التطبيق المباشر (APK)
+        </a>
+
+        <div class="trust-icons">
+            <span><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg> آمن وموثوق</span>
+            <span><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 12 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg> خالي من الإعلانات</span>
+            <span><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg> يدعم RAW & PNG</span>
+        </div>
+    </header>
+
+    <section class="features" id="features">
+        <div class="feature-card">
+            <div class="card-icon-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            </div>
+            <h3>تحرير احترافي</h3>
+            <p>تحكّم كامل في درجات الألوان، الظلال، والمنحنيات المتقدمة لتجعل كل لقطة تحفة فنية نابضة بالحياة.</p>
+        </div>
+        <div class="feature-card">
+            <div class="card-icon-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+            </div>
+            <h3>واجهة سهلة</h3>
+            <p>تخطيط انسيابي مريح للعين مبني للسرعة والراحة، لا تعقيد بعد اليوم للوصول لأقوى الفلاتر والأدوات.</p>
+        </div>
+        <div class="feature-card">
+            <div class="card-icon-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+            </div>
+            <h3>دعم جميع الصيغ</h3>
+            <p>سواء كنت مصوراً هاوياً أو محترفاً، يدعم التطبيق معالجة صيغ RAW فائقة الخام وصيغ PNG الشفافة بدقة متناهية.</p>
+        </div>
+        <div class="feature-card">
+            <div class="card-icon-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 12 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            </div>
+            <h3>مجاني بلا إعلانات</h3>
+            <p>جميع الميزات مفتوحة ومتاحة لك بشكل مجاني تماماً، دون ظهور نوافذ أو إعلانات مزعجة تشتت ذهنك أثناء العمل.</p>
+        </div>
+    </section>
+
+    <section class="steps-section" id="steps">
+        <h2 class="section-title">طريقة تحميل وتثبيت <span class="gradient-text">bixelite</span></h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-circle">١</div>
+                <h3>انقر على زر التحميل</h3>
+            </div>
+            <div class="step">
+                <div class="step-circle">٢</div>
+                <h3>انتظر اكتمال التحميل</h3>
+            </div>
+            <div class="step">
+                <div class="step-circle">٣</div>
+                <h3>اتبع خطوات التثبيت</h3>
+            </div>
+            <div class="step">
+                <div class="step-circle">٤</div>
+                <h3>ابدأ التحرير والإبداع</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <h2 class="section-title" style="text-align: center;">الأسئلة الشائعة</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                هل التطبيق مجاني؟
+                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <p>نعم، تطبيق bixelite مجاني تماماً بكافة أدواته وفلاتره المتقدمة، ولن تضطر لدفع أي اشتراكات خفية للوصول للميزات الاحترافية.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                ما الصيغ المدعومة؟
+                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <p>يدعم bixelite جميع الصيغ الشهيرة مثل JPEG و PNG المحمية بالشفافية، بالإضافة إلى الصيغ الخام الاحترافية RAW المستخدمة في كاميرات DSLR الحديثة.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                هل هو آمن؟
+                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <p>بالتأكيد، ملف الـ APK مشفر ونظيف تماماً من أي ملفات خبيثة أو برمجيات تتبع، نحن نحترم خصوصية بياناتك وصورك لأبعد حد.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                هل يحتاج إنترنت؟
+                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <p>نعم، التطبيق يعتمد على خوارزميات معالجة سحابية متطورة وفلاتر ذكية متجددة، لذا <strong>لا يعمل التطبيق إلا بوجود اتصال نشط بالإنترنت</strong> لضمان تقديم أعلى جودة ممكنة.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="tips">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 12 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        <div>
+            <h4>تلميحات لتثبيت سلس على نظام أندرويد:</h4>
+            <p>نظراً لتثبيت التطبيق مباشرة كملف APK خارجي، قد تظهر لك رسالة تنبيهية من نظام أندرويد لحمايتك. تفضل بالموافقة ومنح الإذن بـ "تثبيت التطبيقات من مصادر غير معروفة" من الإعدادات لتبدأ الاستخدام فوراً وبأمان تام.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo-container">
+                <img src="xxx.jpg" alt="bixelite Logo">
+                <span>lite<span class="gradient-text">bixe</span></span>
+            </div>
+            <div class="footer-links">
+                <a href="#features">المميزات</a>
+                <a href="#steps">التعليمات</a>
+                <a href="#faq">الأسئلة الشائعة</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 جميع الحقوق محفوظة لتطبيق bixelite. تم التطوير بشغف لإثراء الإبداع البصري.
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('show');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.remove('show');
+        }
+
+        function toggleFAQ(element) {
+            const parent = element.parentElement;
+            const allItems = document.querySelectorAll('.faq-item');
+            
+            allItems.forEach(item => {
+                if(item !== parent) {
+                    item.classList.remove('active');
+                }
+            });
+
+            parent.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
